@@ -16,5 +16,8 @@ class Alat extends Model
     public function order() {
         return $this->hasMany(Order::class,'alat_id','id');
     }
-   
+    public function lokasi()
+    {
+        return $this->belongsTo(Lokasi::class);
+    }
 }

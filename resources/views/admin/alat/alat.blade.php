@@ -93,6 +93,15 @@
                     </select>
                 </div>
                 <div class="mb-3">
+                    <select class="form-select" name="lokasi" required>
+                        <option value="">Pilih Lokasi</option>
+                        @foreach ($locations as $location)
+                            <option value="{{ $location->id }}">{{ $location->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="mb-3">
                     <textarea class="form-control" name="deskripsi" rows="3" placeholder="Deskripsi singkat"></textarea>
                 </div>
                 <div class="mb-3">

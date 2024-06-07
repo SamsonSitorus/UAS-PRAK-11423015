@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Alat;
 use App\Models\category;
 use App\Models\carts;
+use App\Models\Lokasi;
 use App\Models\Order;
 use App\Models\Payment;
 
@@ -13,25 +14,26 @@ use App\Models\Payment;
 class AlatController extends Controller
 {
     public function index($id = null) {
-
-        if($id != null) {
-            $alats = Alat::where('kategori_id','=',$id)->get();
-        }
-        else {
+        if ($id != null) {
+            $alats = Alat::where('kategori_id', '=', $id)->get();
+        } else {
             $alats = Alat::with(['category'])->get();
         }
-
-        if(request('search')) {
+    
+        if (request('search')) {
             $key = request('search');
-            $alats =  Alat::with(['category'])->where('nama_alat','LIKE','%'.$key.'%')->get();
+            $alats =  Alat::with(['category'])->where('nama_alat', 'LIKE', '%' . $key . '%')->get();
         }
-
-        return view('admin.alat.alat',[
+    
+        $categories = Category::all(); // Ambil semua kategori
+        $locations = Lokasi::all(); // Ambil semua lokasi
+    
+        return view('admin.alat.alat', [
             'alats' => $alats,
-            'categories' => Category::all()
+            'categories' => $categories,
+            'locations' => $locations, // Kirimkan variabel $locations ke tampilan
         ]);
     }
-
     public function edit($id) {
         $alat = Alat::with(['category'])->find($id);
 
@@ -100,9 +102,9 @@ class AlatController extends Controller
 
         // Agar harga pada cart mengikuti saat harga alat di-update oleh Admin
         $cart = new Carts();
-        $cart->where('alat_id',$id)->where('durasi',24)->update(['harga' => $alat->harga24]);
-        $cart->where('alat_id',$id)->where('durasi',12)->update(['harga' => $alat->harga12]);
-        $cart->where('alat_id',$id)->where('durasi',6)->update(['harga' => $alat->harga6]);
+        $cart->where('alat_id',$id)->where('durasi',3)->update(['harga' => $alat->harga24]);
+        $cart->where('alat_id',$id)->where('durasi',2)->update(['harga' => $alat->harga12]);
+        $cart->where('alat_id',$id)->where('durasi',1)->update(['harga' => $alat->harga6]);
 
         return redirect(route('alat.index'))->with('message', 'Alat berhasil diperbarui!');
     }
