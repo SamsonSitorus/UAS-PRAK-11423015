@@ -39,28 +39,28 @@ class Handler extends ExceptionHandler
      * @param  \Throwable  $exception
      * @return \Illuminate\Http\Response
      */
-    // public function render($request, Throwable $exception)
-    // {
-    //     $isJson = $request->expectsJson();
+    public function render($request, Throwable $exception)
+    {
+        $isJson = $request->expectsJson();
 
-    //     if ($exception instanceof AuthenticationException) {
-    //         return $this->handleException($exception, $isJson, 'Unauthenticated', 401);
-    //     }
+        if ($exception instanceof AuthenticationException) {
+            return $this->handleException($exception, $isJson, 'Unauthenticated', 401);
+        }
 
-    //     if ($exception instanceof ModelNotFoundException) {
-    //         return $this->handleException($exception, $isJson, 'Resource not found', 404);
-    //     }
+        if ($exception instanceof ModelNotFoundException) {
+            return $this->handleException($exception, $isJson, 'Resource not found', 404);
+        }
 
-    //     if ($exception instanceof NotFoundHttpException) {
-    //         return $this->handleException($exception, $isJson, 'Not Found', 404);
-    //     }
+        if ($exception instanceof NotFoundHttpException) {
+            return $this->handleException($exception, $isJson, 'Not Found', 404);
+        }
 
-    //     if ($exception instanceof HttpException) {
-    //         return $this->handleException($exception, $isJson, $exception->getMessage(), $exception->getStatusCode());
-    //     }
+        if ($exception instanceof HttpException) {
+            return $this->handleException($exception, $isJson, $exception->getMessage(), $exception->getStatusCode());
+        }
 
-    //     return $this->handleException($exception, $isJson, 'Something went wrong', 500);
-    // }
+        return $this->handleException($exception, $isJson, 'Something went wrong', 500);
+    }
 
     protected function handleException(Throwable $exception, bool $isJson, string $message, int $statusCode)
     {
